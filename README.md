@@ -34,6 +34,7 @@ Delegated implementations are available for the following interfaces:
 - [`IHttpHandler`][IHttpHandler]
 - [`IHttpAsyncHandler`][IHttpAsyncHandler]
 - [`IHttpModule`][IHttpModule]
+- [`IRegisteredObject`][IRegisteredObject]
 
 
 ## Building
@@ -52,6 +53,7 @@ to build the solution and `pack.cmd` to build and pack.
 [Delegating]: https://www.nuget.org/packages/Delegating
 [IHttpHandler]: https://docs.microsoft.com/en-us/dotnet/api/system.web.ihttphandler
 [IHttpAsyncHandler]: https://docs.microsoft.com/en-us/dotnet/api/system.web.ihttpasynchandler
+[IRegisteredObject]: https://docs.microsoft.com/en-us/dotnet/api/system.web.hosting.iregisteredobject
 [IHttpModule]: https://docs.microsoft.com/en-us/dotnet/api/system.web.ihttpmodule
 [delegate]: https://docs.microsoft.com/en-us/dotnet/api/system.delegate
 [fsobjexpr]: https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/object-expressions

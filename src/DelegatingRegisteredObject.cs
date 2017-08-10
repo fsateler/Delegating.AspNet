@@ -1,4 +1,4 @@
-#region Copyright (C) 2017 Atif Aziz. All rights reserved.
+#region Copyright (C) 2017 Felipe Sateler. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -26,31 +26,21 @@ namespace Delegating.AspNet
     using System.Web;
     using System.Web.Hosting;
 
-    static partial class Delegate
+    sealed partial class DelegatingRegisteredObject : IRegisteredObject
     {
-        public static IHttpHandler HttpHandler(Action<HttpContext> requestProcessor) =>
-            new DelegatingHttpHandler(requestProcessor);
+        private readonly Action<bool> OnStop;
 
-        public static IHttpModule HttpModule(Func<HttpApplication, IDisposable> initializer) =>
-            new DelegatingHttpModule(initializer);
+        public DelegatingRegisteredObject(Action<bool> onStop) =>
+            OnStop = onStop ?? throw new ArgumentNullException(nameof(onStop));
 
-        public static IRegisteredObject RegisteredObject(Action<bool> onStop) => new DelegatingRegisteredObject(onStop);
+        public void Stop(bool immediate)
+        {
+            try {
+                OnStop(immediate);
+            }
+            finally {
+                HostingEnvironment.UnregisterObject(this);
+            }
+        }
     }
 }
-
-#if ASYNC_HTTP_HANDLER
-
-namespace Delegating.AspNet
-{
-    using System;
-    using System.Threading.Tasks;
-    using System.Web;
-
-    static partial class Delegate
-    {
-        public static HttpTaskAsyncHandler HttpTaskAsyncHandler(Func<HttpContext, Task> requestProcessor) =>
-            new DelegatingHttpTaskAsyncHandler(requestProcessor);
-    }
-}
-
-#endif
